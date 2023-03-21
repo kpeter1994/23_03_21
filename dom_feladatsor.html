@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #square{
+            margin: 1rem;
+            border: 1px solid black;
+            width: 0;
+            height: 0;
+        }
+        img{
+            transition: 5s;
+        }
+        .hide{
+            opacity: 0;
+            transition: 5s;
+        }
+        .error{
+            color: red;
+        }
+        .success{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<label for="karakterszam">Írjon be valamit:</label>
+<input type="text" id="karakterszam">
+<p id="characterCount">A karakterek száma: 0</p>
+
+<hr>
+
+
+    <label for="xPage">X oldal</label>
+    <input id="xPage" type="number">
+
+    <label for="yPage">Y oldal</label>
+    <input id="yPage" type="number">
+
+    <button id="drawsOut">Kirajzol</button>
+
+    <div id="square" style="border: 1px solid black; width: 0; height: 0">
+
+    </div>
+<hr>
+
+<img src="hidingCat.jpg" alt="">
+<br>
+<button id="toggle">Bújócska</button>
+
+<hr>
+
+<div class="message-box">
+    <div class="error"></div>
+    <div class="success"></div>
+</div>
+
+
+<label for="email">Elamil cím</label>
+<input id="email" type="text">
+
+<label for="reEmail">Elamil megerősítése </label>
+<input id="reEmail" type="text">
+
+<button id="check">Ellenőrzés</button>
+<script>
+    const inputField = document.getElementById("karakterszam");
+    const characterCount = document.getElementById("characterCount");
+
+inputField.addEventListener("input", function() {
+    characterCount.textContent = `A karakterek száma: ${inputField.value.length}`;
+});
+
+const yPage = document.getElementById('yPage')
+const xPage = document.getElementById('xPage')
+const square = document.getElementById('square')
+const drawsOut = document.getElementById('drawsOut')
+
+    drawsOut.addEventListener('click', function (){
+        square.style.width = `${xPage.value}px`
+        square.style.height = `${yPage.value}px`
+    })
+
+const toggle = document.getElementById('toggle')
+const catImg = document.getElementsByTagName('img')[0]
+
+toggle.addEventListener('click',function (){
+    catImg.classList.toggle('hide')
+})
+
+const email = document.getElementById('email')
+const reEmail = document.getElementById('reEmail')
+const  check = document.getElementById('check')
+const error = document.querySelector('.error')
+const success = document.querySelector('.success')
+const emailRegex = /^[0-9a-z\.-]+@([0-9a-z-]+\.)+[a-z]{2,4}$/i;
+
+check.addEventListener('click', function (){
+    if (email.value.length == 0 && reEmail.value.length == 0){
+        error.textContent = 'Nincs kitöltve egyik mező sem!'
+    }else if (email.value.length == 0 ){
+        error.textContent = 'Nincs kitöltve az e-mail mező!'
+    }else if (reEmail.value.length == 0 ){
+        error.textContent = 'Nincs kitöltve az e-mail megerősítése mező!'
+    }else if (!emailRegex.test(email.value)){
+        error.textContent = 'Nem megfelelő az e-mail cím formátuma!'
+    }else if (email.value !== reEmail.value){
+        error.textContent = 'A két mező tartalma nem egyezik!'
+    }else {
+        success.textContent = 'Adatok rögzítése sikeres!'
+    }
+})
+
+</script>
+</body>
+</html>
